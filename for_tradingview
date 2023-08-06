@@ -1,7 +1,7 @@
 //Day Trading for Success ..
 //@version=5
 // This is a clone of the ThinkOrSwim DTS Scalping Indicator
-// Source: https://www.youtube.com/watch?v=RS16hhgntQQ
+// Source: https://www.youtube.com/watch?v=QuVCKI9bzfc&t=359s
 indicator("DTS Scalping Indicator",format=format.volume, precision=0)
 // Get buy and sell volume
 buyVolume = (high==low)? 0: volume* (close-low)/(high-low)
