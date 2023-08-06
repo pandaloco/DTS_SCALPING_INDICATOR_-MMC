@@ -1,0 +1,35 @@
+//Day Trading for Success ..
+//@version=5
+// This is a clone of the ThinkOrSwim DTS Scalping Indicator
+// Source: https://www.youtube.com/watch?v=RS16hhgntQQ
+indicator("DTS Scalping Indicator",format=format.volume, precision=0)
+// Get buy and sell volume
+buyVolume = (high==low)? 0: volume* (close-low)/(high-low)
+sellVolume = (high==low) ? 0: volume* (high-close)/(high-low)
+// function to display the table stats
+// function to display the table stats
+printTableStats(cell1Txt="", cell1Bg=color.yellow, cell2Txt="", cell2Bg=color.yellow, cell3Txt="", cell3Bg=color.white, cell4Txt="", cell4Bg=color.green, cell5Txt="", cell5Bg=color.red) =>
+    var table t = table.new(position.top_right, 5, 1, border_color=color.black, border_width=3)
+    table.cell(t, 0, 0, cell1Txt, text_color=color.black, bgcolor=cell1Bg)
+    table.cell(t, 1, 0, cell2Txt, text_color=color.black, bgcolor=cell2Bg)
+    table.cell(t, 2, 0, cell3Txt, text_color=color.black, bgcolor=cell3Bg)
+    table.cell(t, 3, 0, cell4Txt, text_color=color.black, bgcolor=cell4Bg)
+    table.cell(t, 4, 0, cell5Txt, text_color=color.black, bgcolor=cell5Bg)
+
+// get stats and colors for stats table
+string currentBar = str.tostring(volume)
+string lastBar = str.tostring(volume[1])
+string sellBuyVolumeMsg = buyVolume > sellVolume? "Buyers Volume > Sellers Volume": "Sellers Volume > Buyers Volume"
+color sellBuyVolumeBg = buyVolume > sellVolume? color.green: color.red
+string buyPercent = str.tostring(int((buyVolume/volume)*100))+"%"
+string sellPercent = str.tostring(int((sellVolume/volume)*100))+"%"
+// print the table stats
+printTableStats (cell1Txt = "Current: "+currentBar, cell2Txt = "Last: "+lastBar, cell3Txt = sellBuyVolumeMsg, cell3Bg = sellBuyVolumeBg, cell4Txt = "% Buyers: "+buyPercent, cell5Txt = "% Sellers: "+sellPercent)
+// plot the volume bars
+
+plot(volume, style=plot.style_columns, color=color.rgb(71, 107, 239), title="Volume Bars")
+// plot the sell and buy volume lines 2
+
+plot(sellVolume, linewidth=1, style=plot.style_circles, color=color.red, title="Sell Volume Line",join = true)
+
+plot(buyVolume, linewidth=1, style=plot.style_circles, color=color.green, title="Buy Volume Line",join = true)
